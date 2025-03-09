@@ -20,8 +20,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.log(`[vercel] Handling ${req.method} request to ${req.url}`);
   
   return new Promise((resolve) => {
+    // Create Express-compatible request and response objects
+    const expressReq = Object.assign(req, {
+      get: (name: string) => req.headers[name.toLowerCase()],
+      header: (name: string) => req.headers[name.toLowerCase()],
+      accepts: () => true,
+      acceptsCharsets: () => true,
+      acceptsEncodings: () => true,
+      acceptsLanguages: () => true
+    });
+    
     // Express middleware will handle the request
-    app(req, res, () => {
+    app(expressReq as any, res as any, () => {
       resolve(undefined);
     });
   });
