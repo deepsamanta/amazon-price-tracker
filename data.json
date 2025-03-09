@@ -10,6 +10,10 @@
       "dropPercentage": 5,
       "priceHistory": [
         {
+          "date": "2025-03-09T07:35:38.670Z",
+          "price": 54900
+        },
+        {
           "date": "2025-03-09T07:31:08.683Z",
           "price": 54900
         },
@@ -123,7 +127,7 @@
         }
       ],
       "id": 1,
-      "lastChecked": "2025-03-09T07:31:08.683Z",
+      "lastChecked": "2025-03-09T07:35:38.670Z",
       "createdAt": "2025-03-09T05:15:00.557Z"
     },
     {
@@ -135,6 +139,10 @@
       "notifyOnDrop": true,
       "dropPercentage": 60,
       "priceHistory": [
+        {
+          "date": "2025-03-09T07:35:43.944Z",
+          "price": 7999
+        },
         {
           "date": "2025-03-09T07:31:14.055Z",
           "price": 7999
@@ -149,7 +157,7 @@
         }
       ],
       "id": 2,
-      "lastChecked": "2025-03-09T07:31:14.055Z",
+      "lastChecked": "2025-03-09T07:35:43.944Z",
       "createdAt": "2025-03-09T07:27:50.043Z"
     }
   ],
