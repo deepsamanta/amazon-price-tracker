@@ -82,31 +82,30 @@ class PriceTracker {
             currentPrice: newPrice,
             originalPrice,
             imageUrl: scrapedData.imageUrl,
-            lastChecked: now.toISOString()
+            lastChecked: now
           });
           
-          // Check if the price has dropped by the threshold percentage
-          if (product.notifyOnDrop && previousPrice > newPrice) {
-            const previousDropPercentage = calculateDiscountPercentage(previousPrice, originalPrice);
+          // Check if the price has changed
+          if (previousPrice !== newPrice) {
             const currentDropPercentage = calculateDiscountPercentage(newPrice, originalPrice);
             
-            // Only notify if the current percentage meets or exceeds the threshold
-            // and the previous percentage was below the threshold
-            if (currentDropPercentage >= product.dropPercentage && 
-                previousDropPercentage < product.dropPercentage) {
-              
-              const notification: InsertNotification = {
-                productId: product.id,
-                productName: product.title,
-                productUrl: product.url,
-                oldPrice: previousPrice,
-                newPrice: newPrice,
-                percentageDropped: currentDropPercentage,
-                read: false
-              };
-              
-              await storage.createNotification(notification);
-              log(`Created notification for product ${product.id}: Price dropped by ${currentDropPercentage}%`, "price-tracker");
+            // Create a notification for any price change
+            const notification: InsertNotification = {
+              productId: product.id,
+              productName: product.title,
+              productUrl: product.url,
+              oldPrice: previousPrice,
+              newPrice: newPrice,
+              percentageDropped: currentDropPercentage,
+              read: false
+            };
+            
+            await storage.createNotification(notification);
+            
+            if (newPrice < previousPrice) {
+              log(`Created notification for product ${product.id}: Price dropped from ${previousPrice} to ${newPrice} (${currentDropPercentage}%)`, "price-tracker");
+            } else {
+              log(`Created notification for product ${product.id}: Price increased from ${previousPrice} to ${newPrice}`, "price-tracker");
             }
           }
           

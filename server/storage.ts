@@ -61,8 +61,8 @@ export class MemStorage implements IStorage {
     const product: Product = {
       ...productData,
       id,
-      lastChecked: now.toISOString(),
-      createdAt: now.toISOString()
+      lastChecked: now,
+      createdAt: now
     };
     
     this.products.set(id, product);
@@ -79,7 +79,7 @@ export class MemStorage implements IStorage {
     const updatedProduct: Product = {
       ...product,
       ...data,
-      lastChecked: data.lastChecked || new Date().toISOString()
+      lastChecked: data.lastChecked || new Date()
     };
     
     this.products.set(id, updatedProduct);
@@ -124,7 +124,8 @@ export class MemStorage implements IStorage {
     const newNotification: Notification = {
       ...notification,
       id,
-      createdAt: now.toISOString()
+      createdAt: now,
+      read: notification.read || false
     };
     
     this.notifications.set(id, newNotification);

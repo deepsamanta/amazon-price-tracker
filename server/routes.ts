@@ -62,7 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           currentPrice: scrapedData.currentPrice,
           originalPrice: scrapedData.originalPrice,
           imageUrl: scrapedData.imageUrl,
-          notifyOnDrop: productData.notifyOnDrop,
+          notifyOnDrop: productData.notifyOnDrop || true,
           dropPercentage: productData.dropPercentage,
           priceHistory: [pricePoint]
         });
