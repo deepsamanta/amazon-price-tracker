@@ -10,6 +10,10 @@
       "dropPercentage": 5,
       "priceHistory": [
         {
+          "date": "2025-03-09T05:17:02.495Z",
+          "price": 54900
+        },
+        {
           "date": "2025-03-09T05:15:38.179Z",
           "price": 54900
         },
@@ -19,7 +23,7 @@
         }
       ],
       "id": 1,
-      "lastChecked": "2025-03-09T05:15:38.179Z",
+      "lastChecked": "2025-03-09T05:17:02.495Z",
       "createdAt": "2025-03-09T05:15:00.557Z"
     }
   ],
@@ -31,7 +35,7 @@
       "oldPrice": 59900,
       "newPrice": 54900,
       "percentageDropped": 8,
-      "read": false,
+      "read": true,
       "id": 1,
       "createdAt": "2025-03-09T05:16:21.105Z"
     }
