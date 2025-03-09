@@ -38,6 +38,18 @@ interface StorageData {
   notificationIdCounter: number;
 }
 
+// Determine if running in Vercel or local dev environment
+const isVercel = process.env.VERCEL === '1';
+
+// Helper function to log messages with fallback for Vercel environment
+const logMessage = (message: string, source = "storage") => {
+  if (isVercel) {
+    console.log(`[${source}] ${message}`);
+  } else {
+    log(message, source);
+  }
+};
+
 export class MemStorage implements IStorage {
   private products: Map<number, Product>;
   private notifications: Map<number, Notification>;
@@ -187,6 +199,12 @@ export class MemStorage implements IStorage {
   // Persistence methods
   async saveData(): Promise<void> {
     try {
+      // In Vercel environment, we can't use file system for persistence
+      if (isVercel) {
+        logMessage(`Data saving not available in serverless environment - skipping`, "storage");
+        return;
+      }
+      
       const data: StorageData = {
         products: Array.from(this.products.values()),
         notifications: Array.from(this.notifications.values()),
@@ -195,17 +213,23 @@ export class MemStorage implements IStorage {
       };
       
       await fs.promises.writeFile(this.dataFilePath, JSON.stringify(data, null, 2));
-      log(`Data saved to ${this.dataFilePath}`, "storage");
+      logMessage(`Data saved to ${this.dataFilePath}`);
     } catch (error: any) {
-      log(`Error saving data: ${error.message || error}`, "storage");
+      logMessage(`Error saving data: ${error.message || error}`);
     }
   }
   
   async loadData(): Promise<void> {
     try {
+      // In Vercel environment, we'll use demo data instead
+      if (isVercel) {
+        logMessage(`Running in serverless environment - using in-memory storage only`);
+        return;
+      }
+      
       // Check if data file exists
       if (!fs.existsSync(this.dataFilePath)) {
-        log(`No data file found at ${this.dataFilePath}`, "storage");
+        logMessage(`No data file found at ${this.dataFilePath}`);
         return;
       }
       
@@ -242,9 +266,9 @@ export class MemStorage implements IStorage {
       this.productIdCounter = data.productIdCounter;
       this.notificationIdCounter = data.notificationIdCounter;
       
-      log(`Loaded ${this.products.size} products and ${this.notifications.size} notifications from ${this.dataFilePath}`, "storage");
+      logMessage(`Loaded ${this.products.size} products and ${this.notifications.size} notifications from ${this.dataFilePath}`);
     } catch (error: any) {
-      log(`Error loading data: ${error.message || error}`, "storage");
+      logMessage(`Error loading data: ${error.message || error}`);
     }
   }
 }
