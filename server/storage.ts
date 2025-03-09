@@ -61,7 +61,9 @@ export class MemStorage implements IStorage {
   }
   
   async getProductByUrl(url: string): Promise<Product | undefined> {
-    for (const product of this.products.values()) {
+    // Convert to array first to avoid TypeScript iteration issues
+    const productArray = Array.from(this.products.values());
+    for (const product of productArray) {
       if (product.url === url) {
         return product;
       }
@@ -194,8 +196,8 @@ export class MemStorage implements IStorage {
       
       await fs.promises.writeFile(this.dataFilePath, JSON.stringify(data, null, 2));
       log(`Data saved to ${this.dataFilePath}`, "storage");
-    } catch (error) {
-      log(`Error saving data: ${error}`, "storage");
+    } catch (error: any) {
+      log(`Error saving data: ${error.message || error}`, "storage");
     }
   }
   
@@ -241,8 +243,8 @@ export class MemStorage implements IStorage {
       this.notificationIdCounter = data.notificationIdCounter;
       
       log(`Loaded ${this.products.size} products and ${this.notifications.size} notifications from ${this.dataFilePath}`, "storage");
-    } catch (error) {
-      log(`Error loading data: ${error}`, "storage");
+    } catch (error: any) {
+      log(`Error loading data: ${error.message || error}`, "storage");
     }
   }
 }
