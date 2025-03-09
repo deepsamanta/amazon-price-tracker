@@ -1,6 +1,6 @@
 
 // Custom build script for Vercel deployment
-const { execSync } = require('child_process');
+import { execSync } from 'child_process';
 
 // Run the standard Vite build for the client
 console.log('Building client with Vite...');
@@ -8,7 +8,7 @@ execSync('vite build', { stdio: 'inherit' });
 
 // Build the API functions
 console.log('Building API routes with esbuild...');
-execSync('npx esbuild server/index.ts api/vercel.ts --platform=node --packages=external --bundle --format=cjs --outdir=dist/api', { 
+execSync('npx esbuild server/index.ts api/vercel.ts --platform=node --packages=external --bundle --format=esm --outdir=dist/api', { 
   stdio: 'inherit' 
 });
 
