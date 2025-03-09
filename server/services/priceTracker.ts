@@ -12,9 +12,9 @@ class PriceTracker {
    * Initialize the price tracker
    */
   initialize(): void {
-    // Check prices every 3 hours
-    const INTERVAL_HOURS = 3;
-    const INTERVAL_MS = INTERVAL_HOURS * 60 * 60 * 1000;
+    // Check prices every 5 minutes
+    const INTERVAL_MINUTES = 5;
+    const INTERVAL_MS = INTERVAL_MINUTES * 60 * 1000;
     
     // Schedule the first check
     this.checkInterval = setInterval(() => {
@@ -26,7 +26,7 @@ class PriceTracker {
       this.checkPrices();
     }, 30 * 1000); // 30 seconds after startup
     
-    log("Price tracker initialized, checking prices every " + INTERVAL_HOURS + " hours", "price-tracker");
+    log("Price tracker initialized, checking prices every " + INTERVAL_MINUTES + " minutes", "price-tracker");
   }
   
   /**
