@@ -1,6 +1,6 @@
 
 // Custom build script for Vercel deployment
-import { execSync } from 'child_process';
+const { execSync } = require('child_process');
 
 // Run the standard Vite build for the client
 console.log('Building client with Vite...');
