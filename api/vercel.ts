@@ -1,35 +1,28 @@
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import app from '../server/index';
+import express from 'express';
+import routes from '../server/routes';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+
+// Create a standalone express app for the API routes
+const app = express();
+
+// Apply middleware
+app.use(cors());
+app.use(bodyParser.json());
+
+// Apply routes
+routes(app);
 
 // This is the entry point for Vercel serverless functions
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  console.log(`[vercel] Handling request: ${req.method} ${req.url}`);
+  console.log(`[vercel] Handling ${req.method} request to ${req.url}`);
   
-  // Handle API requests only
-  if (req.url?.startsWith('/api')) {
-    // Forward the request to our Express app
-    return new Promise((resolve, reject) => {
-      const mockListener = () => {};
-      const originalAppListen = app.listen;
-      app.listen = mockListener as any;
-      
-      app(req, res);
-      
-      app.listen = originalAppListen;
-      
-      const checkIfDone = () => {
-        if (res.writableEnded) {
-          resolve(undefined);
-        } else {
-          setTimeout(checkIfDone, 10);
-        }
-      };
-      
-      checkIfDone();
+  return new Promise((resolve) => {
+    // Express middleware will handle the request
+    app(req, res, () => {
+      resolve(undefined);
     });
-  } else {
-    // For non-API requests, we should not get here due to the routes in vercel.json
-    res.status(404).send('Not found');
-  }
+  });
 }
