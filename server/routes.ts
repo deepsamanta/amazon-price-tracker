@@ -145,6 +145,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Create notification
+  apiRouter.post("/notifications", async (req, res) => {
+    try {
+      const notificationSchema = z.object({
+        productId: z.number(),
+        productName: z.string(),
+        productUrl: z.string(),
+        oldPrice: z.number(),
+        newPrice: z.number(),
+        percentageDropped: z.number(),
+        read: z.boolean().default(false)
+      });
+      
+      const validationResult = notificationSchema.safeParse(req.body);
+      
+      if (!validationResult.success) {
+        const errorMessage = fromZodError(validationResult.error).message;
+        return res.status(400).json({ message: errorMessage });
+      }
+      
+      const notificationData = validationResult.data;
+      const newNotification = await storage.createNotification(notificationData);
+      
+      res.status(201).json(newNotification);
+    } catch (error) {
+      console.error("Error creating notification:", error);
+      res.status(500).json({ message: "Failed to create notification" });
+    }
+  });
+  
   // Mark notification as read
   apiRouter.patch("/notifications/:id/read", async (req, res) => {
     try {

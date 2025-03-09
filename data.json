@@ -1,0 +1,41 @@
+{
+  "products": [
+    {
+      "url": "https://www.amazon.in/dp/B0BDHX8Z63",
+      "title": "Apple iPhone 14 (128 GB) - Midnight",
+      "currentPrice": 54900,
+      "originalPrice": 69600,
+      "imageUrl": "https://m.media-amazon.com/images/I/31wacBawB3L._SY445_SX342_QL70_FMwebp_.jpg",
+      "notifyOnDrop": true,
+      "dropPercentage": 5,
+      "priceHistory": [
+        {
+          "date": "2025-03-09T05:15:38.179Z",
+          "price": 54900
+        },
+        {
+          "date": "2025-03-09T05:15:00.557Z",
+          "price": 54900
+        }
+      ],
+      "id": 1,
+      "lastChecked": "2025-03-09T05:15:38.179Z",
+      "createdAt": "2025-03-09T05:15:00.557Z"
+    }
+  ],
+  "notifications": [
+    {
+      "productId": 1,
+      "productName": "Apple iPhone 14",
+      "productUrl": "https://www.amazon.in/dp/B0BDHX8Z63",
+      "oldPrice": 59900,
+      "newPrice": 54900,
+      "percentageDropped": 8,
+      "read": false,
+      "id": 1,
+      "createdAt": "2025-03-09T05:16:21.105Z"
+    }
+  ],
+  "productIdCounter": 2,
+  "notificationIdCounter": 2
+}
