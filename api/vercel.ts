@@ -1,7 +1,7 @@
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import express from 'express';
-import routes from '../server/routes';
+import { registerRoutes } from '../server/routes';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Apply routes
-routes(app);
+registerRoutes(app);
 
 // This is the entry point for Vercel serverless functions
 export default async function handler(req: VercelRequest, res: VercelResponse) {
